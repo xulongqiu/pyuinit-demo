@@ -9,6 +9,7 @@ import unittest
 from HTMLTestRunner import HTMLTestRunner
 import time
 import os
+import sys
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -94,15 +95,21 @@ def send_email(newfile):
 
 if __name__=='__main__':   
     print '=====AutoTest Start======'
+    if len(sys.argv) != 2:
+        print "please give the source code rootpath"
+        sys.exit(-1)
+        pass
+
+    rootPath = sys.argv[1]
     #1.执行测试用例，生成最新的测试用例
     #指定测试用例为当前文件夹下的test_case目录
     #如果用/可以不用r
 #    test_dir='./test_case'
 #Windows的cmd执行：python "D:\system files\workspace\selenium\test_project\runtest_htmltestrunner_autosendemail.py"
 #不用绝对路径会报：ImportError: Start directory is not importable: './test_case'
-    test_dir = '/Users/xulongqiu/eclipse-workspace/demo-pydev/src/test'
+    test_dir = rootPath + '/src/test'
     #知道测试报告的路径
-    test_report_dir='/Users/xulongqiu/eclipse-workspace/demo-pydev/report'
+    test_report_dir = rootPath + '/report'
     
     discover=unittest.defaultTestLoader.discover(test_dir, pattern='test_*.py')
     now=time.strftime('%Y-%m-%d_%H_%M_%S_')
